@@ -27,7 +27,7 @@ Route::get('/list-friend', [MessagerController::class, 'getListFriend'])->middle
 Route::get('/messager/{id_sender}/{id_receiver}', [MessagerController::class, 'getMessager'])->middleware(['auth', 'verified'])->name('messager');
 Route::post('/send-messager', [MessagerController::class, 'sendMessager'])->middleware(['auth', 'verified'])->name('send-messager');
 Route::get('/get-messager-realtime/{id_sender}/{id_receiver}', [MessagerController::class, 'getRealtimeMessager'])->middleware(['auth', 'verified'])->name('send-messager-realtime');
-
+Route::post('/ajax-send-messager/{id_sender}/{id_receiver}/{content}', [MessagerController::class, 'ajaxSendMessager'])->middleware(['auth', 'verified'])->name('ajax-send-messager');
 Route::middleware('auth')->group(function () {
     Route::get('/profile', [ProfileController::class, 'edit'])->name('profile.edit');
     Route::patch('/profile', [ProfileController::class, 'update'])->name('profile.update');
