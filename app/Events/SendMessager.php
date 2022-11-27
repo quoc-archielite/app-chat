@@ -19,9 +19,11 @@ class SendMessager implements ShouldBroadcast
      *
      * @return void
      */
-    public function __construct()
+    public $messager;
+
+    public function __construct($messager)
     {
-        //
+        $this->messager = $messager;
     }
 
     /**
@@ -32,5 +34,14 @@ class SendMessager implements ShouldBroadcast
     public function broadcastOn()
     {
         return new Channel('send-messager');
+    }
+
+    public function broadcastWith()
+    {
+        return [
+            'data' => [
+                $this->messager
+            ],
+        ];
     }
 }

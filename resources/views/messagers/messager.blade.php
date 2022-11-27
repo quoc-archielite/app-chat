@@ -1,4 +1,8 @@
 <x-app-layout>
+    <audio id="audio-messager-new">
+        <source src="/audio/48831.mp3" type="audio/mp3">
+        Your browser does not support the audio element.
+    </audio>
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -49,7 +53,7 @@
                                                 <div class="d-flex align-items-start">
                                                     <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
                                                     <div class="flex-grow-1 ml-3">
-                                                        Sharon Lessman
+                                                        {{ $friend_messager->name }}
                                                         <div class="small"><span class="fas fa-circle chat-online"></span> Online</div>
                                                     </div>
                                                 </div>
@@ -109,7 +113,7 @@
                                                         <img src="https://bootdey.com/img/Content/avatar/avatar3.png" class="rounded-circle mr-1" alt="Sharon Lessman" width="40" height="40">
                                                     </div>
                                                     <div class="flex-grow-1 pl-3">
-                                                        <strong>Sharon Lessman</strong>
+                                                        <strong>{{ $friend_messager->name }}</strong>
                                                         <div class="text-muted small"><em>Typing...</em></div>
                                                     </div>
                                                     <div>
@@ -121,7 +125,7 @@
                                             </div>
                                             <div class="box-messager">
                                                 <div class="position-relative">
-                                                    <div class="chat-messages p-4">
+                                                    <div class="chat-messages p-4 " scrollTop="200">
                                                         @forelse($messagers as $key => $value)
 
                                                             @if ($value->id_sender == auth()->user()->id)
@@ -153,12 +157,12 @@
                                                     </div>
                                                 </div>
                                             </div>
-                                            <div class="flex-grow-0 py-3 px-4 border-top">
+                                            <div class="flex-grow-0 py-3 px-4 border-top row">
                                                     @csrf
                                                     <div class="input-group">
                                                         <input type="hidden" value="{{ $id_receiver }}" name="id_receiver" class="id_receiver">
                                                         <input type="hidden" value="{{ auth()->id() }}" name="id_sender" class="id_sender">
-                                                        <input type="text" name="content" class="content" class="form-control" placeholder="Type your message">
+                                                        <input type="text" name="content" class="content" class="form-control" placeholder="Type your message" style="width: calc(100% - 70px)">
                                                         <button class="btn btn-primary send-messager">Send</button>
                                                     </div>
                                             </div>

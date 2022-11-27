@@ -13,6 +13,8 @@ $.ajaxSetup({
 });
 
 $(document).ready(function(){
+
+    $(".chat-messages").scrollTop($(".chat-messages")[0].scrollHeight);
     const id_sender = $('.id_sender').val();
     const id_receiver = $('.id_receiver').val();
 
@@ -21,6 +23,7 @@ $(document).ready(function(){
             url: "/ajax-send-messager/"+id_sender+'/'+id_receiver+'/'+$('input.content').val(),
             type: "POST",
             success: function(result){
+                $(".chat-messages").scrollTop($(".chat-messages")[0].scrollHeight);
                 $('input.content').val('');
             }});
     });
@@ -29,13 +32,14 @@ $(document).ready(function(){
         cluster: "ap1"
     });
     var channel = pusher.subscribe('send-messager');
-
     channel.bind('App\\Events\\SendMessager', getMessagerRealtime);
 
     function getMessagerRealtime() {
         $.ajax({url: "/get-messager-realtime/"+id_sender+'/'+id_receiver,
             success: function(result){
-                $('.box-messager').html(result);
+                $('#audio-messager-new')[0].play();
+                $('.chat-messages').append(result);
+                $(".chat-messages").scrollTop($(".chat-messages")[0].scrollHeight);
             }});
     }
 });

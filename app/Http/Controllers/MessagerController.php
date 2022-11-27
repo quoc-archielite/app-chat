@@ -40,12 +40,12 @@ class MessagerController extends Controller
 
     public function sendMessager (Request $request)
     {
-        Messager::create([
+        $messager = Messager::create([
             'id_sender' => auth()->user()->id,
             'id_receiver' => (int) $request->id_receiver,
             'content' => $request->content,
         ]);
-        event(new SendMessager());
+        event(new SendMessager($messager));
 
         return redirect()->back();
     }
@@ -53,22 +53,22 @@ class MessagerController extends Controller
     public function getRealtimeMessager(int $id_sender, int $id_receiver)
     {
         $arr = [$id_receiver, $id_sender];
-        $messagers = Messager::whereIn('id_sender', $arr)
+        $messager = Messager::whereIn('id_sender', $arr)
             ->whereIn('id_receiver', $arr)
-            ->get();
+            ->latest('created_at')->first();
         $friend_messager= User::find($id_receiver);
 
-        return view('messagers.realtime_messager', compact('messagers', 'friend_messager'));
+        return view('messagers.realtime_messager', compact('messager', 'friend_messager'));
 
     }
 
     public function ajaxSendMessager (int $id_sender, int $id_receiver, string $content )
     {
-        Messager::create([
+        $messager = Messager::create([
             'id_sender' => auth()->user()->id,
             'id_receiver' => (int) $id_receiver,
             'content' => $content,
         ]);
-        event(new SendMessager());
+        event(new SendMessager($messager));
     }
 }
