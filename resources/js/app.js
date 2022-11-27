@@ -13,7 +13,7 @@ $.ajaxSetup({
 });
 
 $(document).ready(function(){
-
+    const audio =  new Audio('/audio/48831.mp3');
     $(".chat-messages").scrollTop($(".chat-messages")[0].scrollHeight);
     const id_sender = $('.id_sender').val();
     const id_receiver = $('.id_receiver').val();
@@ -37,7 +37,7 @@ $(document).ready(function(){
     function getMessagerRealtime() {
         $.ajax({url: "/get-messager-realtime/"+id_sender+'/'+id_receiver,
             success: function(result){
-                $('#audio-messager-new')[0].play();
+                audio.play();
                 $('.chat-messages').append(result);
                 $(".chat-messages").scrollTop($(".chat-messages")[0].scrollHeight);
             }});

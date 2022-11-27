@@ -1,8 +1,4 @@
 <x-app-layout>
-    <audio id="audio-messager-new">
-        <source src="/audio/48831.mp3" type="audio/mp3">
-        Your browser does not support the audio element.
-    </audio>
 <div class="py-12">
     <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
