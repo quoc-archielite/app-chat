@@ -33,15 +33,6 @@ class SendMessager implements ShouldBroadcast
      */
     public function broadcastOn()
     {
-        return new Channel('send-messager');
-    }
-
-    public function broadcastWith()
-    {
-        return [
-            'data' => [
-                $this->messager
-            ],
-        ];
+        return new PrivateChannel('send-messager');
     }
 }

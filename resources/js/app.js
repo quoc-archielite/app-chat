@@ -15,6 +15,7 @@ $.ajaxSetup({
 $(document).ready(function(){
     const audio =  new Audio('/audio/48831.mp3');
     $(".chat-messages").scrollTop($(".chat-messages")[0].scrollHeight);
+
     const id_sender = $('.id_sender').val();
     const id_receiver = $('.id_receiver').val();
 
@@ -27,19 +28,25 @@ $(document).ready(function(){
                 $('input.content').val('');
             }});
     });
-    var pusher = new Pusher('194a34f389c1f1a76d94', {
+    Pusher.logToConsole = true;
+    const pusher = new Pusher('194a34f389c1f1a76d94', {
         encrypted: true,
         cluster: "ap1"
     });
-    var channel = pusher.subscribe('send-messager');
-    channel.bind('App\\Events\\SendMessager', getMessagerRealtime);
+    const channel = pusher.subscribe('sentMessager');
+    console.log(channel)
+    channel.bind('send-message', function (data) {
+        if (data.id_receiver == $('.auth_id').val()) {
+            audio.play();
+        }
+        getMessagerRealtime()
+    });
 
     function getMessagerRealtime() {
         $.ajax({url: "/get-messager-realtime/"+id_sender+'/'+id_receiver,
             success: function(result){
-                audio.play();
                 $('.chat-messages').append(result);
-                $(".chat-messages").scrollTop($(".chat-messages")[0].scrollHeight);
+                $('.chat-messages').scrollTop($('.chat-messages')[0].scrollHeight);
             }});
     }
 });

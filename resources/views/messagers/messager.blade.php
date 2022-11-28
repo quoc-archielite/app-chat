@@ -158,6 +158,7 @@
                                                     <div class="input-group">
                                                         <input type="hidden" value="{{ $id_receiver }}" name="id_receiver" class="id_receiver">
                                                         <input type="hidden" value="{{ auth()->id() }}" name="id_sender" class="id_sender">
+                                                        <input type="hidden" value="{{ auth()->id() }}" name="auth_id" class="auth_id">
                                                         <input type="text" name="content" class="content" class="form-control" placeholder="Type your message" style="width: calc(100% - 70px)">
                                                         <button class="btn btn-primary send-messager">Send</button>
                                                     </div>

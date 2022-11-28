@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Events\SendMessager;
 use App\Models\Messager;
 use App\Models\User;
+use Pusher\Pusher;
 use App\Models\UserRelationship;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -64,11 +65,24 @@ class MessagerController extends Controller
 
     public function ajaxSendMessager (int $id_sender, int $id_receiver, string $content )
     {
-        $messager = Messager::create([
+        $messager = Messager::create(array(
             'id_sender' => auth()->user()->id,
             'id_receiver' => (int) $id_receiver,
             'content' => $content,
-        ]);
-        event(new SendMessager($messager));
+        ));
+
+//        event(new SendMessager($messager));
+        $options = array(
+            'cluster' => 'ap1',
+            'encrypted' => true
+        );
+
+        $pusher = new Pusher(
+            env('PUSHER_APP_KEY'),
+            env('PUSHER_APP_SECRET'),
+            env('PUSHER_APP_ID'),
+            $options
+        );
+        $pusher->trigger('sentMessager', 'send-message', $messager );
     }
 }
